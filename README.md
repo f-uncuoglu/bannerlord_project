@@ -84,4 +84,14 @@ Follow these steps in order to get the application running locally.
 Run the `init_db.py` script. This will create all the tables (from `schema.sql`) and insert all the data you just generated.
 
 ```sh
-python database/init_db.py
+python .database\init_db.py
+```
+
+
+### 4. Database Initialization
+
+Finally, run the `app.py` script, and open up the link that shows up in command line
+
+```sh
+python .\app.py
+```
