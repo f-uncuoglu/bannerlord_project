@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ culture.name }} - Bannerlord Database{% endblock %}
+
+{% block content %}
+<h2>{{ culture.name }}</h2>
+
+{% for tier in troops_by_tier|sort %}
+<h3>Tier {{ tier }} Troops</h3>
+<div class="troop-grid">
+    {% for troop in troops_by_tier[tier] %}
+    <div class="troop-card">
+        <h4><a href="{{ url_for('troop_detail', troop_id=troop.troop_id) }}">
+            {{ troop.name }}
+        </a></h4>
+        <p>{{ 'Mounted' if troop.is_mounted else 'Infantry' }} | {{ troop.wage }} denars/day</p>
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+
+<a href="{{ url_for('factions') }}" class="btn">← Back to All Factions</a>
+{% endblock %}

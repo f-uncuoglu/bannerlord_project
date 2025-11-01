@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}All Troops - Bannerlord Database{% endblock %}
+
+{% block content %}
+<h2>All Troops</h2>
+
+<div class="filters">
+    <form method="GET">
+        <select name="culture">
+            <option value="">All Factions</option>
+            {% for culture in cultures %}
+            <option value="{{ culture }}" {% if culture == current_culture %}selected{% endif %}>
+                {{ culture }}
+            </option>
+            {% endfor %}
+        </select>
+        
+        <select name="tier">
+            <option value="">All Tiers</option>
+            {% for i in range(1, 7) %}
+            <option value="{{ i }}" {% if i|string == current_tier %}selected{% endif %}>
+                Tier {{ i }}
+            </option>
+            {% endfor %}
+        </select>
+        
+        <select name="mounted">
+            <option value="">All Types</option>
+            <option value="yes" {% if current_mounted == 'yes' %}selected{% endif %}>Mounted</option>
+            <option value="no" {% if current_mounted == 'no' %}selected{% endif %}>Infantry</option>
+        </select>
+        
+        <button type="submit">Filter</button>
+        <a href="{{ url_for('troops') }}" class="btn-reset">Reset</a>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Faction</th>
+            <th>Tier</th>
+            <th>Wage</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for troop in troops %}
+        <tr>
+            <td><a href="{{ url_for('troop_detail', troop_id=troop.troop_id) }}">
+                {{ troop.name }}
+            </a></td>
+            <td>{{ troop.culture_name }}</td>
+            <td>Tier {{ troop.tier }}</td>
+            <td>{{ troop.wage }} denars/day</td>
+            <td>{{ 'Mounted' if troop.is_mounted else 'Infantry' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

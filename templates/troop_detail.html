@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ troop.name }} - Bannerlord Database{% endblock %}
+
+{% block content %}
+<h2>{{ troop.name }}</h2>
+
+<div class="troop-info">
+    <p><strong>Faction:</strong> {{ troop.culture_name }}</p>
+    <p><strong>Tier:</strong> {{ troop.tier }}</p>
+    <p><strong>Wage:</strong> {{ troop.wage }} denars/day</p>
+    <p><strong>Type:</strong> {{ 'Mounted' if troop.is_mounted else 'Infantry' }}</p>
+</div>
+
+{% if prerequisites %}
+<h3>Upgrades From:</h3>
+<ul>
+    {% for prereq in prerequisites %}
+    <li>
+        <a href="{{ url_for('troop_detail', troop_id=prereq.troop_id) }}">
+            {{ prereq.name }}
+        </a>
+        ({{ prereq.xp_cost }} XP required)
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if upgrades %}
+<h3>Can Upgrade To:</h3>
+<ul>
+    {% for upgrade in upgrades %}
+    <li>
+        <a href="{{ url_for('troop_detail', troop_id=upgrade.troop_id) }}">
+            {{ upgrade.name }}
+        </a>
+        ({{ upgrade.xp_cost }} XP required)
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a href="{{ url_for('troops') }}" class="btn">← Back to All Troops</a>
+{% endblock %}

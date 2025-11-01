@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Bannerlord Database{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h2>Mount & Blade II: Bannerlord Troop Database</h2>
+    <p>Explore troops, factions, and upgrade paths from the world of Calradia</p>
+</div>
+
+<div class="stats">
+    <div class="stat-card">
+        <h3>{{ culture_count }}</h3>
+        <p>Factions</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ troop_count }}</h3>
+        <p>Troops</p>
+    </div>
+</div>
+
+<h3>Factions</h3>
+<div class="faction-grid">
+    {% for culture in cultures %}
+    <div class="faction-card">
+        <h4><a href="{{ url_for('faction_detail', culture_id=culture.culture_id) }}">
+            {{ culture.name }}
+        </a></h4>
+        <p>{{ culture.troop_count }} troops</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

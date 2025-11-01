@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Factions - Bannerlord Database{% endblock %}
+
+{% block content %}
+<h2>Factions of Calradia</h2>
+
+<div class="factions-list">
+    {% for culture in cultures %}
+    <div class="faction-detail-card">
+        <h3><a href="{{ url_for('faction_detail', culture_id=culture.culture_id) }}">
+            {{ culture.name }}
+        </a></h3>
+        <div class="faction-stats">
+            <p><strong>Total Troops:</strong> {{ culture.troop_count }}</p>
+            <p><strong>Mounted Units:</strong> {{ culture.mounted_count }}</p>
+            <p><strong>Average Wage:</strong> {{ "%.1f"|format(culture.avg_wage or 0) }} denars/day</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
