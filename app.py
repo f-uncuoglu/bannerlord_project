@@ -134,13 +134,32 @@ def troop_detail(troop_id):
     """, (troop_id,))
     prerequisites = cursor.fetchall()
     
+    # Get equipment for this troop
+    cursor.execute("""
+        SELECT tej.slot, i.name as item_name, i.item_id
+        FROM Troop_Equipment_Junction tej
+        JOIN Items i ON tej.item_id = i.item_id
+        WHERE tej.troop_id = %s
+        ORDER BY tej.slot
+    """, (troop_id,))
+    equipment_raw = cursor.fetchall()
+    
+    # Group equipment by slot
+    equipment_by_slot = {}
+    for item in equipment_raw:
+        slot = item['slot']
+        if slot not in equipment_by_slot:
+            equipment_by_slot[slot] = []
+        equipment_by_slot[slot].append(item)
+    
     cursor.close()
     conn.close()
     
     return render_template('troop_detail.html',
                          troop=troop,
                          upgrades=upgrades,
-                         prerequisites=prerequisites)
+                         prerequisites=prerequisites,
+                         equipment=equipment_by_slot)
 
 @app.route('/factions')
 def factions():

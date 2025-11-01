@@ -12,6 +12,35 @@
     <p><strong>Type:</strong> {{ 'Mounted' if troop.is_mounted else 'Infantry' }}</p>
 </div>
 
+{% if equipment %}
+<h3>Equipment</h3>
+<div class="equipment-section">
+    <table class="equipment-table">
+        <thead>
+            <tr>
+                <th>Slot</th>
+                <th>Items</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot, items in equipment.items() %}
+            <tr>
+                <td class="equipment-slot">{{ slot|replace('_', ' ')|title }}</td>
+                <td class="equipment-items">
+                    {% for item in items %}
+                        <span class="equipment-item">{{ item.item_name }}</span>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<h3>Equipment</h3>
+<p><em>No equipment data available for this troop.</em></p>
+{% endif %}
+
 {% if prerequisites %}
 <h3>Upgrades From:</h3>
 <ul>

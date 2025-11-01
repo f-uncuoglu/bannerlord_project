@@ -29,6 +29,15 @@ def init_database():
     conn.commit()
     print("✓ Tables created successfully!")
     
+    
+    print("Inserting item types and items...")
+    with open('database/items_data.sql', 'r', encoding='utf-8') as f:
+        items_sql = f.read()
+        for statement in items_sql.split(';'):
+            if statement.strip():
+                cursor.execute(statement)
+    conn.commit()
+
     print("Inserting data...")
     # Read and execute data inserts
     with open('database/bannerlord_troops.sql', 'r', encoding='utf-8') as f:

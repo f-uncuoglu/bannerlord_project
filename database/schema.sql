@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS Troop_Equipment_Junction;
 DROP TABLE IF EXISTS Skills;
 DROP TABLE IF EXISTS Attributes;
 DROP TABLE IF EXISTS Troops;
+DROP TABLE IF EXISTS Items;
+DROP TABLE IF EXISTS Item_Types;
 DROP TABLE IF EXISTS Cultures;
 
 -- Create Cultures Table
@@ -11,6 +13,22 @@ CREATE TABLE Cultures (
     culture_id INT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT
+);
+
+-- Create Item_Types Table
+CREATE TABLE Item_Types (
+    item_type_id INT PRIMARY KEY,
+    item_type VARCHAR(50) NOT NULL
+);
+
+-- Create Items Table
+CREATE TABLE Items (
+    item_id INT PRIMARY KEY,
+    item_type_id INT,
+    culture_id INT,
+    name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (item_type_id) REFERENCES Item_Types(item_type_id),
+    FOREIGN KEY (culture_id) REFERENCES Cultures(culture_id)
 );
 
 -- Create Troops Table
@@ -47,7 +65,8 @@ CREATE TABLE Troop_Equipment_Junction (
     item_id INT,
     slot VARCHAR(50),
     PRIMARY KEY (troop_id, item_id, slot),
-    FOREIGN KEY (troop_id) REFERENCES Troops(troop_id)
+    FOREIGN KEY (troop_id) REFERENCES Troops(troop_id),
+    FOREIGN KEY (item_id) REFERENCES Items(item_id)
 );
 
 -- Create Troop_Upgrade_Paths Table
